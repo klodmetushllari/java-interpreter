@@ -37,6 +37,10 @@ public class CommandNode implements ASTNode {
                 Object value = arguments.get(1).evaluate(variableManager);
                 variableManager.assign(varNode.getName(), value);
                 return value;
+
+            case "HELP":
+                Main.printHelp();
+                return null;
                 
             default:
                 throw new RuntimeException("Unknown command: " + commandName, line, position);
