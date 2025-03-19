@@ -1,8 +1,10 @@
 package com.interpreter;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import com.interpreter.io.ConsoleInputHandler;
+import com.interpreter.io.FileInputHandler;
+import com.interpreter.io.InputHandler;
+import com.interpreter.core.Interpreter;
+
 
 public class Main {
     public static void main(String[] args) {

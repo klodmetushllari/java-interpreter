@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.io;
 
 import java.io.IOException;
 
@@ -7,4 +7,4 @@ public interface InputHandler {
     boolean hasMoreInput() throws IOException;
     int getLineNumber();
     void close() throws IOException;
-} 
+}

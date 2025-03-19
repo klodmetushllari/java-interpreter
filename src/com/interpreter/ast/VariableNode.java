@@ -1,4 +1,8 @@
-package com.interpreter;
+package com.interpreter.ast;
+
+
+import com.interpreter.runtime.VariableManager;
+import com.interpreter.error.RuntimeException;
 
 public class VariableNode implements ASTNode {
     private final String name;
@@ -22,4 +26,4 @@ public class VariableNode implements ASTNode {
         }
         return variableManager.get(name);
     }
-} 
+}

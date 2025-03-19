@@ -1,4 +1,8 @@
-package com.interpreter;
+package com.interpreter.ast;
+
+
+import com.interpreter.runtime.VariableManager;
+import com.interpreter.error.RuntimeException;
 
 public class OperationNode implements ASTNode {
     private final ASTNode left;
@@ -19,17 +23,17 @@ public class OperationNode implements ASTNode {
     public Object evaluate(VariableManager variableManager) {
         Object leftValue = left.evaluate(variableManager);
         Object rightValue = right.evaluate(variableManager);
-        
+
         // Handle numeric operations
         if (leftValue instanceof Number && rightValue instanceof Number) {
             double leftDouble = ((Number) leftValue).doubleValue();
             double rightDouble = ((Number) rightValue).doubleValue();
-            
+
             switch (operator) {
                 case "+": return leftDouble + rightDouble;
                 case "-": return leftDouble - rightDouble;
                 case "*": return leftDouble * rightDouble;
-                case "/": 
+                case "/":
                     if (rightDouble == 0) {
                         throw new RuntimeException("Division by zero", line, position);
                     }
@@ -44,17 +48,15 @@ public class OperationNode implements ASTNode {
                     throw new RuntimeException("Unknown operator: " + operator, line, position);
             }
         }
-        
+
         // Handle string concatenation
         if (operator.equals("+") && (leftValue instanceof String || rightValue instanceof String)) {
-            return String.valueOf(leftValue) + String.valueOf(rightValue);
+            return leftValue + String.valueOf(rightValue);
         }
-        
+
         // Handle string comparison
-        if (leftValue instanceof String && rightValue instanceof String) {
-            String leftString = (String) leftValue;
-            String rightString = (String) rightValue;
-            
+        if (leftValue instanceof String leftString && rightValue instanceof String rightString) {
+
             switch (operator) {
                 case "==": return leftString.equals(rightString);
                 case "!=": return !leftString.equals(rightString);
@@ -62,8 +64,8 @@ public class OperationNode implements ASTNode {
                     throw new RuntimeException("Operator " + operator + " not supported for strings", line, position);
             }
         }
-        
-        throw new RuntimeException("Unsupported operation: " + leftValue.getClass().getSimpleName() + 
-                                 " " + operator + " " + rightValue.getClass().getSimpleName(), line, position);
+
+        throw new RuntimeException("Unsupported operation: " + leftValue.getClass().getSimpleName() +
+                " " + operator + " " + rightValue.getClass().getSimpleName(), line, position);
     }
-} 
+}

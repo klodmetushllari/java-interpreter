@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.io;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,10 +29,10 @@ public class FileInputHandler implements InputHandler {
     @Override
     public boolean hasMoreInput() throws IOException {
         if (cachedLine != null) return true;
-        
+
         cachedLine = reader.readLine();
         if (cachedLine == null) return false;
-        
+
         lineNumber++;
         return true;
     }
@@ -46,4 +46,4 @@ public class FileInputHandler implements InputHandler {
     public void close() throws IOException {
         reader.close();
     }
-} 
+}

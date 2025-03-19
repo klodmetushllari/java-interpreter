@@ -1,4 +1,8 @@
-package com.interpreter;
+package com.interpreter.parser;
+
+import com.interpreter.ast.*;
+import com.interpreter.error.SyntaxException;
+import com.interpreter.lexer.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +19,7 @@ public class Parser {
         if (peekToken().getType() == Token.TokenType.EOL) {
             return null; // Empty line
         }
-        
+
         Token token = peekToken();
         if (token.getType() == Token.TokenType.COMMAND) {
             return parseCommand();
@@ -28,7 +32,7 @@ public class Parser {
         Token commandToken = consumeToken(Token.TokenType.COMMAND);
         String commandName = commandToken.getValue();
         List<ASTNode> arguments = new ArrayList<>();
-        
+
         if (commandName.equals("ASSIGN")) {
             // ASSIGN requires a variable name first
             if (peekToken().getType() != Token.TokenType.IDENTIFIER) {
@@ -36,7 +40,7 @@ public class Parser {
             }
             Token identifierToken = consumeToken(Token.TokenType.IDENTIFIER);
             arguments.add(new VariableNode(identifierToken.getValue(), identifierToken.getLine(), identifierToken.getPosition()));
-            
+
             // Then an expression
             arguments.add(parseExpression());
         } else {
@@ -45,7 +49,7 @@ public class Parser {
                 arguments.add(parseExpression());
             }
         }
-        
+
         consumeToken(Token.TokenType.EOL);
         return new CommandNode(commandName, arguments, commandToken.getLine(), commandToken.getPosition());
     }
@@ -56,11 +60,11 @@ public class Parser {
 
     private ASTNode parseAdditive() {
         ASTNode left = parseMultiplicative();
-        
+
         while (position < tokens.size()) {
             Token token = peekToken();
-            if (token.getType() == Token.TokenType.OPERATOR && 
-                (token.getValue().equals("+") || token.getValue().equals("-"))) {
+            if (token.getType() == Token.TokenType.OPERATOR &&
+                    (token.getValue().equals("+") || token.getValue().equals("-"))) {
                 token = consumeToken(Token.TokenType.OPERATOR);
                 ASTNode right = parseMultiplicative();
                 left = new OperationNode(left, token.getValue(), right, token.getLine(), token.getPosition());
@@ -68,17 +72,17 @@ public class Parser {
                 break;
             }
         }
-        
+
         return left;
     }
 
     private ASTNode parseMultiplicative() {
         ASTNode left = parsePrimary();
-        
+
         while (position < tokens.size()) {
             Token token = peekToken();
-            if (token.getType() == Token.TokenType.OPERATOR && 
-                (token.getValue().equals("*") || token.getValue().equals("/"))) {
+            if (token.getType() == Token.TokenType.OPERATOR &&
+                    (token.getValue().equals("*") || token.getValue().equals("/"))) {
                 token = consumeToken(Token.TokenType.OPERATOR);
                 ASTNode right = parsePrimary();
                 left = new OperationNode(left, token.getValue(), right, token.getLine(), token.getPosition());
@@ -86,13 +90,13 @@ public class Parser {
                 break;
             }
         }
-        
+
         return left;
     }
 
     private ASTNode parsePrimary() {
         Token token = peekToken();
-        
+
         switch (token.getType()) {
             case IDENTIFIER:
                 token = consumeToken(Token.TokenType.IDENTIFIER);
@@ -100,36 +104,36 @@ public class Parser {
                 if (peekToken().getType() == Token.TokenType.LEFT_PAREN) {
                     consumeToken(Token.TokenType.LEFT_PAREN);
                     List<ASTNode> arguments = new ArrayList<>();
-                    
+
                     if (peekToken().getType() != Token.TokenType.RIGHT_PAREN) {
                         arguments.add(parseExpression());
-                        
+
                         while (peekToken().getType() == Token.TokenType.COMMA) {
                             consumeToken(Token.TokenType.COMMA);
                             arguments.add(parseExpression());
                         }
                     }
-                    
+
                     consumeToken(Token.TokenType.RIGHT_PAREN);
                     return new FunctionNode(token.getValue(), arguments, token.getLine(), token.getPosition());
                 } else {
                     return new VariableNode(token.getValue(), token.getLine(), token.getPosition());
                 }
-                
+
             case NUMBER:
                 token = consumeToken(Token.TokenType.NUMBER);
                 return new LiteralNode(Double.parseDouble(token.getValue()));
-                
+
             case STRING:
                 token = consumeToken(Token.TokenType.STRING);
                 return new LiteralNode(token.getValue());
-                
+
             case LEFT_PAREN:
                 consumeToken(Token.TokenType.LEFT_PAREN);
                 ASTNode node = parseExpression();
                 consumeToken(Token.TokenType.RIGHT_PAREN);
                 return node;
-                
+
             default:
                 throw new SyntaxException("Unexpected token: " + token.getType(), token.getLine(), token.getPosition());
         }
@@ -144,17 +148,17 @@ public class Parser {
 
     private Token consumeToken(Token.TokenType expectedType) {
         if (position >= tokens.size()) {
-            throw new SyntaxException("Unexpected end of input", 
-                                     tokens.get(tokens.size() - 1).getLine(), 
-                                     tokens.get(tokens.size() - 1).getPosition());
+            throw new SyntaxException("Unexpected end of input",
+                    tokens.get(tokens.size() - 1).getLine(),
+                    tokens.get(tokens.size() - 1).getPosition());
         }
-        
+
         Token token = tokens.get(position++);
         if (token.getType() != expectedType) {
-            throw new SyntaxException("Expected " + expectedType + ", got " + token.getType(), 
-                                     token.getLine(), token.getPosition());
+            throw new SyntaxException("Expected " + expectedType + ", got " + token.getType(),
+                    token.getLine(), token.getPosition());
         }
-        
+
         return token;
     }
-} 
+}

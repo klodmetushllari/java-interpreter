@@ -1,7 +1,11 @@
-package com.interpreter;
+package com.interpreter.ast;
 
-import java.util.List;
+
+import com.interpreter.runtime.VariableManager;
+import com.interpreter.error.RuntimeException;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class FunctionNode implements ASTNode {
     private final String name;
@@ -22,7 +26,7 @@ public class FunctionNode implements ASTNode {
         for (ASTNode arg : arguments) {
             evaluatedArgs.add(arg.evaluate(variableManager));
         }
-        
+
         switch (name.toLowerCase()) {
             case "sqrt":
                 if (evaluatedArgs.size() != 1) {
@@ -36,7 +40,7 @@ public class FunctionNode implements ASTNode {
                     throw new RuntimeException("sqrt() argument must be non-negative", line, position);
                 }
                 return Math.sqrt(value);
-                
+
             case "abs":
                 if (evaluatedArgs.size() != 1) {
                     throw new RuntimeException("abs() requires exactly one argument", line, position);
@@ -45,7 +49,7 @@ public class FunctionNode implements ASTNode {
                     throw new RuntimeException("abs() argument must be a number", line, position);
                 }
                 return Math.abs(((Number) evaluatedArgs.get(0)).doubleValue());
-                
+
             case "min":
                 if (evaluatedArgs.size() != 2) {
                     throw new RuntimeException("min() requires exactly two arguments", line, position);
@@ -54,10 +58,10 @@ public class FunctionNode implements ASTNode {
                     throw new RuntimeException("min() arguments must be numbers", line, position);
                 }
                 return Math.min(
-                    ((Number) evaluatedArgs.get(0)).doubleValue(),
-                    ((Number) evaluatedArgs.get(1)).doubleValue()
+                        ((Number) evaluatedArgs.get(0)).doubleValue(),
+                        ((Number) evaluatedArgs.get(1)).doubleValue()
                 );
-                
+
             case "max":
                 if (evaluatedArgs.size() != 2) {
                     throw new RuntimeException("max() requires exactly two arguments", line, position);
@@ -66,12 +70,12 @@ public class FunctionNode implements ASTNode {
                     throw new RuntimeException("max() arguments must be numbers", line, position);
                 }
                 return Math.max(
-                    ((Number) evaluatedArgs.get(0)).doubleValue(),
-                    ((Number) evaluatedArgs.get(1)).doubleValue()
+                        ((Number) evaluatedArgs.get(0)).doubleValue(),
+                        ((Number) evaluatedArgs.get(1)).doubleValue()
                 );
-                
+
             default:
                 throw new RuntimeException("Unknown function: " + name, line, position);
         }
     }
-} 
+}

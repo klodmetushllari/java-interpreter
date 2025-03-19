@@ -1,0 +1,6 @@
+ASSIGN x 10
+PRINT x + 5
+PRINT sqrt(16)
+ASSIGN name "John"
+PRINT "Hello, " + name
+

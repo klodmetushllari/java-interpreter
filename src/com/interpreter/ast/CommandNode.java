@@ -1,4 +1,10 @@
-package com.interpreter;
+package com.interpreter.ast;
+
+
+
+import com.interpreter.Main;
+import com.interpreter.runtime.VariableManager;
+import com.interpreter.error.RuntimeException;
 
 import java.util.List;
 
@@ -25,7 +31,7 @@ public class CommandNode implements ASTNode {
                 Object result = arguments.get(0).evaluate(variableManager);
                 System.out.println(result);
                 return result;
-                
+
             case "ASSIGN":
                 if (arguments.size() != 2) {
                     throw new RuntimeException("ASSIGN command requires exactly two arguments", line, position);
@@ -41,9 +47,9 @@ public class CommandNode implements ASTNode {
             case "HELP":
                 Main.printHelp();
                 return null;
-                
+
             default:
                 throw new RuntimeException("Unknown command: " + commandName, line, position);
         }
     }
-} 
+}

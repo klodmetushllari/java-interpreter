@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.lexer;
 
 public class Token {
     private final TokenType type;
@@ -46,4 +46,4 @@ public class Token {
         EOL,
         EOF
     }
-} 
+}

@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class ConsoleInputHandler implements InputHandler {
             System.out.print("> ");
             line = reader.readLine();
             lineNumber++;
-            
+
             if (line == null || line.equalsIgnoreCase("EXIT")) {
                 hasMoreInput = false;
                 return null;
@@ -36,12 +36,12 @@ public class ConsoleInputHandler implements InputHandler {
     @Override
     public boolean hasMoreInput() throws IOException {
         if (!hasMoreInput) return false;
-        
+
         if (cachedLine == null) {
             System.out.print("> ");
             cachedLine = reader.readLine();
             lineNumber++;
-            
+
             if (cachedLine == null || cachedLine.equalsIgnoreCase("EXIT")) {
                 hasMoreInput = false;
                 cachedLine = null;
@@ -60,4 +60,4 @@ public class ConsoleInputHandler implements InputHandler {
     public void close() throws IOException {
         reader.close();
     }
-} 
+}

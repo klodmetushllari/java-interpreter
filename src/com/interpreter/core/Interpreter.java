@@ -1,4 +1,15 @@
-package com.interpreter;
+package com.interpreter.core;
+
+import com.interpreter.ast.ASTNode;
+import com.interpreter.error.ErrorHandler;
+import com.interpreter.error.InterpreterException;
+import com.interpreter.io.ConsoleInputHandler;
+import com.interpreter.io.InputHandler;
+import com.interpreter.io.OutputHandler;
+import com.interpreter.lexer.Lexer;
+import com.interpreter.lexer.Token;
+import com.interpreter.parser.Parser;
+import com.interpreter.runtime.VariableManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,16 +32,16 @@ public class Interpreter {
                 if (line == null || line.trim().isEmpty()) {
                     continue;
                 }
-                
+
                 try {
                     // Lexical analysis
                     Lexer lexer = new Lexer(line, inputHandler.getLineNumber());
                     List<Token> tokens = lexer.tokenize();
-                    
+
                     // Parsing
                     Parser parser = new Parser(tokens);
                     ASTNode ast = parser.parse();
-                    
+
                     // Execution
                     if (ast != null) {
                         ast.evaluate(variableManager);
@@ -53,4 +64,4 @@ public class Interpreter {
             }
         }
     }
-} 
+}

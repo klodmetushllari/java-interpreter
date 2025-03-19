@@ -1,4 +1,7 @@
-package com.interpreter;
+package com.interpreter.ast;
+
+
+import com.interpreter.runtime.VariableManager;
 
 public class LiteralNode implements ASTNode {
     private final Object value;
@@ -11,4 +14,4 @@ public class LiteralNode implements ASTNode {
     public Object evaluate(VariableManager variableManager) {
         return value;
     }
-} 
+}

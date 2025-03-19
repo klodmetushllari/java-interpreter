@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.error;
 
 public class InterpreterException extends java.lang.RuntimeException {
     private final int line;

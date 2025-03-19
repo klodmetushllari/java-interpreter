@@ -1,4 +1,4 @@
-package com.interpreter;
+package com.interpreter.runtime;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,4 +17,4 @@ public class VariableManager {
     public boolean exists(String name) {
         return variables.containsKey(name);
     }
-} 
+}
