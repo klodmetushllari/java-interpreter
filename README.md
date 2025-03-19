@@ -10,6 +10,7 @@ A simple command-line interpreter that supports basic arithmetic operations, var
 - Built-in functions (sqrt, abs, min, max)
 - String operations and comparisons
 - Error handling with detailed messages
+- Built-in help system
 
 ## Prerequisites
 
@@ -39,6 +40,17 @@ java -cp bin com.interpreter.Main
 ### File Input Mode
 ```bash
 java -cp bin com.interpreter.Main -f input.txt
+```
+
+### Help Options
+```bash
+# Show help before starting the interpreter
+java -cp bin com.interpreter.Main -h
+# or
+java -cp bin com.interpreter.Main --help
+
+# In interactive mode, type:
+> HELP
 ```
 
 ## Examples
@@ -98,6 +110,21 @@ PRINT min(x, y)
 - **Lexical Error**: Invalid characters or tokens
 - **Syntax Error**: Invalid command or expression structure
 - **Runtime Error**: Undefined variables, division by zero, etc.
+
+## Available Commands
+
+- `HELP`: Display the command guide and usage information
+- `EXIT`: Exit the interpreter
+- `PRINT expr`: Print the value of an expression
+- `ASSIGN var expr`: Assign a value to a variable
+
+## Expression Types
+
+- **Numbers**: 42, 3.14, -10
+- **Strings**: "Hello", 'World'
+- **Variables**: x, myVar, counter
+- **Operators**: +, -, *, /, ==, !=, <, >, <=, >=
+- **Functions**: sqrt(x), abs(x), min(x,y), max(x,y)
 
 ## Contributing
 
