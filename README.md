@@ -1,6 +1,22 @@
 # Java Interpreter
 
-A simple command-line interpreter that supports basic arithmetic operations, variable assignments, and built-in functions.
+A command-line interpreter implemented in Java that follows a classic interpreter architecture with lexical analysis, parsing, and execution phases. The interpreter supports basic arithmetic operations, variable management, and built-in functions.
+
+## Architecture
+
+The project implements a classic interpreter design pattern with the following components:
+
+- **Lexer**: Converts input text into tokens
+- **Parser**: Transforms tokens into an Abstract Syntax Tree (AST)
+- **Evaluator**: Executes the AST nodes to produce results
+
+### Design Patterns
+
+The implementation utilizes several design patterns:
+- **Interpreter Pattern**: For parsing and evaluating expressions
+- **Composite Pattern**: In the AST structure
+- **Strategy Pattern**: For different input handling strategies
+- **Visitor Pattern**: For evaluating AST nodes
 
 ## Features
 
@@ -9,7 +25,7 @@ A simple command-line interpreter that supports basic arithmetic operations, var
 - Variable assignments and references
 - Built-in functions (sqrt, abs, min, max)
 - String operations and comparisons
-- Error handling with detailed messages
+- Comprehensive error handling with detailed messages
 - Built-in help system
 
 ## Prerequisites
@@ -35,23 +51,32 @@ javac -d bin src/com/interpreter/*.java
 ### Interactive Mode
 ```bash
 java -cp bin com.interpreter.Main
+# or
+java -jar interpreter.jar
 ```
 
 ### File Input Mode
 ```bash
 java -cp bin com.interpreter.Main -f input.txt
+# or
+java -jar interpreter.jar -f input.txt
 ```
 
 ### Help Options
 ```bash
-# Show help before starting the interpreter
 java -cp bin com.interpreter.Main -h
 # or
-java -cp bin com.interpreter.Main --help
-
-# In interactive mode, type:
-> HELP
+java -jar interpreter.jar --help
 ```
+
+## Error Handling
+
+The interpreter provides detailed error messages for:
+- **Lexical Error**: Invalid characters or tokens
+- **Syntax Error**: Invalid command or expression structure
+- **Runtime Error**: Undefined variables, division by zero, etc.
+
+Each error includes context information showing the exact line and position where the error occurred.
 
 ## Examples
 
@@ -85,15 +110,6 @@ John
 Hello, John
 ```
 
-### Error Handling
-```
-> PRINT undefined_var
-RUNTIME ERROR at line 1, position 1:
-  PRINT undefined_var
-  ^
-Undefined variable: undefined_var
-```
-
 ## Input File Format
 
 Create a text file (e.g., `input.txt`) with one command per line:
@@ -104,12 +120,6 @@ PRINT sqrt(x)
 ASSIGN y 20
 PRINT min(x, y)
 ```
-
-## Error Types
-
-- **Lexical Error**: Invalid characters or tokens
-- **Syntax Error**: Invalid command or expression structure
-- **Runtime Error**: Undefined variables, division by zero, etc.
 
 ## Available Commands
 
